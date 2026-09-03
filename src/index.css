@@ -799,13 +799,11 @@ html.light .header-action-button {
   border-color: rgba(15,23,42,.14);
 }
 
-/* Signup page: allow the complete form to remain accessible on short screens. */
+/* Get Started / Signup fits in one viewport on normal phones. */
 .auth-signup-page {
+  height: 100svh;
   min-height: 100svh;
-  height: auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding-bottom: 48px;
+  overflow: hidden;
 }
 .auth-signup-page .auth-card {
   margin-top: 24px;
@@ -813,8 +811,10 @@ html.light .header-action-button {
 }
 .auth-signup-page .auth-card form {
   margin-top: 22px;
+}
+.auth-signup-page .auth-card form {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 }
 .auth-signup-page .auth-card form > label {
   margin: 0;
@@ -828,10 +828,7 @@ html.light .header-action-button {
 }
 @media (max-width: 480px) {
   .auth-signup-page {
-    min-height: 100svh;
-    height: auto;
-    padding: 12px 14px 32px !important;
-    overflow-y: auto;
+    padding: 10px 14px !important;
   }
   .auth-signup-page .auth-card {
     margin-top: 12px;
@@ -1472,72 +1469,21 @@ html.light .student-dashboard .payment-complete-label {
 .profile-menu{position:relative;display:inline-flex;align-items:center;flex-shrink:0}
 .profile-menu-trigger{display:flex;align-items:center;justify-content:center;gap:5px;flex-shrink:0;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 10px;color:#cbd5e1;background:rgba(255,255,255,.035);transition:.2s}
 .profile-menu-trigger:hover{color:#fff;border-color:rgba(212,175,55,.35);background:rgba(212,175,55,.06)}
-
 /*
- * Keep the account menu beside the profile button in BOTH directions.
- * LTR: profile button is on the right -> dropdown opens from the right.
- * RTL: profile button is on the left  -> dropdown opens from the left.
- * The menu is fixed so it cannot be clipped by the header/hero.
+ * The dropdown is viewport-anchored instead of parent-anchored.
+ * This prevents RTL flex ordering from pushing it outside the screen.
  */
-.profile-dropdown{
-  position:fixed;
-  top:90px;
-  right:16px;
-  left:auto;
-  width:235px;
-  max-width:calc(100vw - 24px);
-  box-sizing:border-box;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:16px;
-  background:rgba(10,17,30,.97);
-  box-shadow:0 20px 55px rgba(0,0,0,.35);
-  padding:10px;
-  backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  z-index:9999;
-  overflow:hidden;
-}
-
-html[dir="ltr"] .profile-dropdown{
-  right:16px;
-  left:auto;
-}
-
-html[dir="rtl"] .profile-dropdown{
-  left:16px;
-  right:auto;
-}
-
+.profile-dropdown{position:fixed;top:90px;right:16px;left:auto;width:235px;max-width:calc(100vw - 24px);box-sizing:border-box;border:1px solid rgba(255,255,255,.1);border-radius:16px;background:rgba(10,17,30,.97);box-shadow:0 20px 55px rgba(0,0,0,.35);padding:10px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:9999;overflow:hidden}
+html[dir="rtl"] .profile-dropdown{right:16px;left:auto}
 .profile-dropdown-head{display:flex;gap:10px;align-items:center;padding:10px;color:#f8fafc}
-.profile-dropdown-item{display:flex;align-items:center;gap:10px;width:100%;border-radius:10px;padding:10px 11px;text-align:left;font-size:13px;font-weight:600;color:#cbd5e1;transition:.2s;text-decoration:none}
+.profile-dropdown-item{display:flex;align-items:center;gap:10px;width:100%;border-radius:10px;padding:10px 11px;text-align:left;font-size:13px;color:#cbd5e1;transition:.2s}
 .profile-dropdown-item:hover{background:rgba(212,175,55,.09);color:#fff}
-
-/* Explicit light-mode contrast for every account action, including links. */
-html.light .profile-dropdown{
-  background:rgba(255,255,255,.99);
-  border-color:rgba(15,23,42,.12);
-  box-shadow:0 20px 55px rgba(15,23,42,.16);
-}
+html.light .profile-menu-trigger{color:#334155;background:rgba(15,23,42,.035);border-color:rgba(15,23,42,.1)}
+html.light .profile-dropdown{background:rgba(255,255,255,.98);border-color:rgba(15,23,42,.1);box-shadow:0 20px 55px rgba(15,23,42,.12)}
 html.light .profile-dropdown-head{color:#172033}
-html.light .profile-dropdown-item,
-html.light .public-site > header .profile-dropdown .profile-dropdown-item{
-  color:#334155 !important;
-}
-html.light .profile-dropdown-item:hover,
-html.light .public-site > header .profile-dropdown .profile-dropdown-item:hover{
-  color:#172033 !important;
-  background:rgba(212,175,55,.12);
-}
-html.light .profile-dropdown .text-gold-400{color:#b77900 !important}
-
 @media (max-width:600px){
-  .profile-dropdown{
-    top:78px;
-    width:min(235px,calc(100vw - 24px));
-    max-width:calc(100vw - 24px);
-  }
-  html[dir="ltr"] .profile-dropdown{right:12px;left:auto}
-  html[dir="rtl"] .profile-dropdown{left:12px;right:auto}
+  .profile-dropdown{top:78px;right:12px;left:auto;width:min(235px,calc(100vw - 24px));max-width:calc(100vw - 24px)}
+  html[dir="rtl"] .profile-dropdown{right:12px;left:auto}
 }
 .scrollbar-thin{scrollbar-width:thin}
 
@@ -1561,23 +1507,28 @@ html.light .profile-dropdown .text-gold-400{color:#b77900 !important}
   .drivewise-marquee { animation: none; overflow-x: auto; }
 }
 
-/* Remote automotive image fallback: keeps the card visually intentional if a CDN image is unavailable. */
-.service-image-fallback{
-  min-height:12rem;
-  background:
-    radial-gradient(circle at 70% 35%,rgba(212,175,55,.30),transparent 28%),
-    linear-gradient(135deg,#111827 0%,#020617 55%,#1f2937 100%);
+/* Centered administrator profile in the dashboard header */
+.admin-header-profile {
+  min-width: 190px;
+  max-width: 250px;
 }
-.service-image-fallback::after{
-  content:"DRIVEWISE • SAFE DRIVING";
-  display:grid;
-  place-items:center;
-  height:100%;
-  min-height:12rem;
-  padding:1rem;
-  color:rgba(255,255,255,.72);
-  font-size:.65rem;
-  font-weight:800;
-  letter-spacing:.22em;
-  text-align:center;
+
+html.light .admin-header-profile {
+  border-color: rgba(15,23,42,.10);
+  background: rgba(15,23,42,.025);
+}
+
+html.light .admin-header-profile:hover {
+  border-color: rgba(180,134,20,.28);
+  background: rgba(180,134,20,.06);
+}
+
+html.light .admin-header-profile span.block:first-child {
+  color: #172033;
+}
+
+@media (max-width: 900px) {
+  .admin-header-profile {
+    display: none !important;
+  }
 }

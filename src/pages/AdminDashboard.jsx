@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   Activity, ArrowUpRight, BarChart3, Bell, CalendarDays, CheckCircle2,
   ChevronDown, CircleDollarSign, Download, FileText, Gauge, LayoutDashboard,
@@ -49,6 +49,7 @@ const nav = [
   ["Fleet Status", Truck],
   ["Enquiries", FileText],
   ["Analytics", BarChart3],
+  ["Profile", UserRound],
   ["Settings", Settings]
 ];
 
@@ -73,6 +74,13 @@ export default function AdminDashboard() {
   const [mobile, setMobile] = useState(false);
   const [notice, setNotice] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [profile, setProfile] = useState({
+    name: user?.name || "Alexander Morgan",
+    email: user?.email || "admin@drivewise.com",
+    phone: "+1 555 019 4412",
+    role: "Administrator",
+    avatar: user?.avatar || "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=240&q=80"
+  });
 
   const filtered = useMemo(() =>
     rows.filter(r =>
@@ -139,11 +147,26 @@ export default function AdminDashboard() {
 
       <div className="lg:pl-[270px]">
         <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-slate-950/80 backdrop-blur-2xl">
-          <div className="flex h-20 items-center justify-between px-5 sm:px-8 lg:px-10">
+          <div className="relative flex h-20 items-center justify-between px-5 sm:px-8 lg:px-10">
             <div className="flex items-center gap-4">
               <button onClick={()=>setMobile(true)} className="rounded-lg border border-white/10 p-2 lg:hidden"><Menu size={18}/></button>
               <div><p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gold-400">Operations Center</p><h1 className="mt-1 font-jakarta text-lg font-extrabold">{active}</h1></div>
             </div>
+
+            <button
+              type="button"
+              onClick={()=>selectNav("Profile")}
+              className="admin-header-profile absolute left-1/2 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-gold-500/15 bg-white/[0.025] px-3 py-2 text-left transition hover:border-gold-500/30 hover:bg-gold-500/[0.06] md:flex"
+              title="Open administrator profile"
+            >
+              <img src={profile.avatar} alt={profile.name} className="h-9 w-9 rounded-full object-cover ring-1 ring-gold-500/25" />
+              <span className="min-w-0 pr-2">
+                <span className="block max-w-[150px] truncate text-xs font-extrabold text-white">{profile.name}</span>
+                <span className="mt-0.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-gold-400">Administrator</span>
+              </span>
+              <UserRound size={15} className="shrink-0 text-slate-500" />
+            </button>
+
             <div className="flex items-center gap-2 sm:gap-3">
               <DirectionToggle />
               <ThemeToggle/>
@@ -176,6 +199,7 @@ export default function AdminDashboard() {
           {active === "Fleet Status" && <FleetPage/>}
           {active === "Enquiries" && <EnquiriesPage/>}
           {active === "Analytics" && <AnalyticsPage/>}
+          {active === "Profile" && <AdminProfile profile={profile} setProfile={setProfile}/>}
           {active === "Settings" && <SettingsPage/>}
         </main>
       </div>
@@ -409,6 +433,93 @@ function FleetPage() {
       <div className="divide-y divide-white/5 md:hidden">{vehicles.map(v=><div key={v.id} className="p-5"><div className="flex justify-between"><div><p className="text-xs font-bold text-gold-400">{v.id}</p><p className="mt-1 font-bold">{v.model}</p></div><span className={`rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase ${statusClass[v.status]||"status-confirmed"}`}>{v.status}</span></div><div className="mt-4 grid grid-cols-2 gap-3 text-xs"><div className="rounded-xl border border-white/5 p-3"><p className="text-[10px] text-slate-500">Type</p><p className="mt-1">{v.type}</p></div><div className="rounded-xl border border-white/5 p-3"><p className="text-[10px] text-slate-500">Service</p><p className="mt-1">{v.service}</p></div></div><button onClick={()=>setVehicles(a=>a.filter(x=>x.id!==v.id))} className="btn-secondary mt-4 text-xs"><Trash2 size={13}/>Remove vehicle</button></div>)}</div>
     </section>
     {modal&&<Modal title="Add academy vehicle" onClose={()=>setModal(false)}><div className="grid gap-4 sm:grid-cols-2"><Field label="Vehicle ID" value={form.id} onChange={e=>setForm({...form,id:e.target.value})} placeholder="DW-24"/><Field label="Model" value={form.model} onChange={e=>setForm({...form,model:e.target.value})} placeholder="BMW 3 Series"/><Field label="Type" value={form.type} onChange={e=>setForm({...form,type:e.target.value})}/><Field label="Transmission" value={form.transmission} onChange={e=>setForm({...form,transmission:e.target.value})}/><Field label="Mileage" value={form.mileage} onChange={e=>setForm({...form,mileage:e.target.value})}/><Field label="Next service" value={form.service} onChange={e=>setForm({...form,service:e.target.value})}/></div><button onClick={add} className="btn-gold mt-6"><Save size={15}/>Add vehicle</button></Modal>}
+  </>;
+}
+
+function AdminProfile({ profile, setProfile }) {
+  const { updateUser } = useAuth();
+  const [saved, setSaved] = useState(false);
+  const photoInputRef = useRef(null);
+
+  const saveProfile = () => {
+    updateUser({ name: profile.name, email: profile.email, avatar: profile.avatar });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 1600);
+  };
+
+  const changePhoto = (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !file.type.startsWith("image/")) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const avatar = String(reader.result);
+      setProfile((current) => ({ ...current, avatar }));
+      updateUser({ avatar });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return <>
+    <PageHero
+      eyebrow="Administrator Account"
+      title={<>Manage your <span className="text-gold-gradient">profile.</span></>}
+      description="Update administrator contact details, profile photo and account information from one secure workspace."
+    />
+
+    <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr]">
+      <section className="glass glass-gold rounded-2xl p-7 sm:p-8">
+        <div className="flex flex-col items-center text-center">
+          <div className="relative">
+            <img
+              src={profile.avatar}
+              alt={profile.name}
+              className="h-32 w-32 rounded-2xl object-cover ring-2 ring-gold-500/30"
+            />
+            <button
+              type="button"
+              onClick={() => photoInputRef.current?.click()}
+              className="absolute -bottom-2 -right-2 grid h-10 w-10 place-items-center rounded-xl border border-gold-400/30 bg-gold-500 text-executive-950 shadow-lg"
+              title="Change profile photo"
+              aria-label="Change profile photo"
+            >
+              <Pencil size={16}/>
+            </button>
+            <input ref={photoInputRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={changePhoto} className="hidden" />
+          </div>
+          <h2 className="mt-6 text-xl font-extrabold">{profile.name}</h2>
+          <p className="mt-1 text-sm text-slate-500">{profile.role} · DriveWise Academy</p>
+          <button type="button" onClick={() => photoInputRef.current?.click()} className="mt-5 text-sm font-semibold text-gold-400 hover:text-gold-300">
+            Change profile picture
+          </button>
+        </div>
+
+        <div className="mt-8 space-y-3">
+          {[[ShieldCheck,"Account status","Active"],[UserRound,"Access level","Full administrator access"],[Activity,"Workspace","Operations Center"]].map(([Icon,label,value]) => (
+            <div key={label} className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-4">
+              <Icon size={17} className="text-gold-400"/>
+              <div><p className="text-[10px] uppercase tracking-[0.16em] text-slate-600">{label}</p><p className="mt-1 text-xs font-semibold">{value}</p></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="glass rounded-2xl p-6 sm:p-8">
+        <div className="flex items-center justify-between gap-4">
+          <div><h2 className="text-lg font-extrabold">Profile information</h2><p className="mt-1 text-xs text-slate-500">Keep your administrator details current.</p></div>
+          {saved && <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-400"><CheckCircle2 size={15}/>Saved</span>}
+        </div>
+        <div className="mt-7 grid gap-5 sm:grid-cols-2">
+          <Field label="Full name" value={profile.name} onChange={(e) => setProfile({ ...profile, name: e.target.value })}/>
+          <Field label="Email address" value={profile.email} onChange={(e) => setProfile({ ...profile, email: e.target.value })}/>
+          <Field label="Phone number" value={profile.phone} onChange={(e) => setProfile({ ...profile, phone: e.target.value })}/>
+          <Field label="Role" value={profile.role}/>
+        </div>
+        <div className="mt-7 rounded-xl border border-gold-500/10 bg-gold-500/[0.035] p-5">
+          <div className="flex items-start gap-3"><ShieldCheck size={18} className="mt-0.5 text-gold-400"/><div><p className="text-sm font-bold">Administrator security</p><p className="mt-1 text-xs leading-5 text-slate-500">Your administrator permissions remain protected. Profile changes update the current session immediately.</p></div></div>
+        </div>
+        <button type="button" onClick={saveProfile} className="btn-gold mt-8">{saved ? "Profile saved" : "Save profile"} <Save size={15}/></button>
+      </section>
+    </div>
   </>;
 }
 

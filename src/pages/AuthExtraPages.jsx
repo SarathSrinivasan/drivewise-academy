@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle2, Mail } from "lucide-react";
+import { ArrowRight, CheckCircle2, LockKeyhole, Mail, UserRound, LayoutDashboard } from "lucide-react";
 import { motion } from "framer-motion";
 import ThemeToggle from "../components/ThemeToggle";
 import { Logo } from "../components/PublicLayout";
@@ -17,7 +17,7 @@ function Shell({children,title,sub,compact=false}){
           <div className="flex items-center gap-2">
             {user && (
               <button type="button" onClick={() => nav(user.role === "admin" ? "/admin" : "/dashboard")} className="auth-back-link">
-                Dashboard
+                <LayoutDashboard size={15}/> Dashboard
               </button>
             )}
             <ThemeToggle compact />

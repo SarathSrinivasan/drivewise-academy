@@ -20,9 +20,8 @@ export const pageImages = {
     "https://images.pexels.com/photos/11758756/pexels-photo-11758756.jpeg?auto=compress&cs=tinysrgb&w=1600",
     "https://images.pexels.com/photos/9452104/pexels-photo-9452104.jpeg?auto=compress&cs=tinysrgb&w=1400",
     "https://images.pexels.com/photos/9827417/pexels-photo-9827417.jpeg?auto=compress&cs=tinysrgb&w=1400",
-    "https://images.pexels.com/photos/14209232/pexels-photo-14209232.jpeg?auto=compress&cs=tinysrgb&w=1400",
-    "https://images.pexels.com/photos/5976646/pexels-photo-5976646.jpeg?auto=compress&cs=tinysrgb&w=1400",
-    "https://images.pexels.com/photos/15476331/pexels-photo-15476331.jpeg?auto=compress&cs=tinysrgb&w=1400"
+    "https://images.pexels.com/photos/35628853/pexels-photo-35628853.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    "https://images.pexels.com/photos/5976646/pexels-photo-5976646.jpeg?auto=compress&cs=tinysrgb&w=1400"
   ],
   "blog": [
     "https://images.pexels.com/photos/10481108/pexels-photo-10481108.jpeg?auto=compress&cs=tinysrgb&w=1600",
