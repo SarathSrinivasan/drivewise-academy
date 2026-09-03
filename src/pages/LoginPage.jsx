@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   ArrowRight,
+  ArrowLeft,
   Eye,
   EyeOff,
   LockKeyhole,
@@ -13,10 +14,11 @@ import ThemeToggle from "../components/ThemeToggle";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, loading } = useAuth();
+  const location = useLocation();
+  const { login, loading, user } = useAuth();
 
-  const [email, setEmail] = useState("admin@drivewise.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
 
@@ -44,16 +46,15 @@ export default function LoginPage() {
       console.log("LOGIN RESULT:", result);
 
       if (result?.success) {
-        navigate(result.user.role === "admin" ? "/admin" : "/dashboard", {
-          replace: true,
-        });
+        const destination = location.state?.from?.pathname || (result.user.role === "admin" ? "/admin" : "/dashboard");
+        navigate(destination, { replace: true });
       } else {
         setError("Login failed. Please try again.");
       }
     } catch (error) {
       console.error("LOGIN ERROR:", error);
       setError(
-        error?.message || "Unable to authenticate."
+        error?.message || "Unable to sign in. Please check your details and try again."
       );
     }
   };
@@ -70,7 +71,7 @@ export default function LoginPage() {
         <div className="relative hidden overflow-hidden lg:block">
 
           <img
-            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85"
+            src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1600&q=85"
             alt="Luxury vehicle"
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -83,7 +84,7 @@ export default function LoginPage() {
 
             {/* LOGO */}
 
-            <div>
+            <Link to="/" aria-label="DriveWise Academy Home" className="inline-flex items-center gap-3">
               <div className="flex items-center gap-3">
 
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-gold-500/40 bg-black/30">
@@ -107,7 +108,7 @@ export default function LoginPage() {
                 </div>
 
               </div>
-            </div>
+            </Link>
 
             {/* HERO TEXT */}
 
@@ -147,6 +148,13 @@ export default function LoginPage() {
           <div className="absolute right-5 top-5 z-20 sm:right-8 sm:top-8">
             <ThemeToggle compact />
           </div>
+          {user && (
+            <div className="absolute left-5 top-5 z-20 sm:left-8 sm:top-8">
+              <button type="button" onClick={() => navigate(user.role === "admin" ? "/admin" : "/dashboard")} className="auth-back-link">
+                <ArrowLeft className="h-4 w-4" /> Back to dashboard
+              </button>
+            </div>
+          )}
 
           <motion.div
             initial={{
@@ -165,7 +173,7 @@ export default function LoginPage() {
 
             {/* MOBILE LOGO */}
 
-            <div className="mb-10 lg:hidden">
+            <Link to="/" aria-label="DriveWise Academy Home" className="mb-10 inline-flex lg:hidden">
 
               <div className="flex items-center gap-3">
 
@@ -191,7 +199,7 @@ export default function LoginPage() {
 
               </div>
 
-            </div>
+            </Link>
 
 
             {/* HEADER */}
@@ -255,7 +263,7 @@ export default function LoginPage() {
                       setEmail(event.target.value)
                     }
                     autoComplete="email"
-                    placeholder="admin@drivewise.com"
+                    placeholder="you@example.com"
                     className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-4 pl-12 pr-4 text-white outline-none transition focus:border-gold-500/60 focus:bg-white/[0.05]"
                   />
 
@@ -361,12 +369,6 @@ export default function LoginPage() {
 
             <p className="mt-6 text-center text-xs text-slate-500">New to DriveWise? <Link to="/signup" className="font-bold text-gold-400">Create an account</Link></p>
 
-            <div className="mt-4 rounded-xl border border-white/10 bg-white/[0.02] p-4">
-              <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Student Demo Account</p>
-              <p className="mt-2 text-xs text-slate-500">Email: <span className="text-slate-300">student@drivewise.com</span></p>
-              <p className="mt-1 text-xs text-slate-500">Password: <span className="text-slate-300">123456</span></p>
-            </div>
-
             {/* PROTECTED */}
 
             <div className="my-8 flex items-center gap-4">
@@ -378,35 +380,6 @@ export default function LoginPage() {
               </span>
 
               <div className="h-px flex-1 bg-white/10" />
-
-            </div>
-
-
-            {/* DEMO LOGIN */}
-
-            <div className="rounded-xl border border-gold-500/20 bg-gold-500/5 p-4">
-
-              <p className="text-xs font-semibold uppercase tracking-wider text-gold-400">
-                Demo Account
-              </p>
-
-              <div className="mt-2 text-xs text-slate-400">
-
-                <p>
-                  Email:{" "}
-                  <span className="text-slate-300">
-                    admin@drivewise.com
-                  </span>
-                </p>
-
-                <p className="mt-1">
-                  Password:{" "}
-                  <span className="text-slate-300">
-                    123456
-                  </span>
-                </p>
-
-              </div>
 
             </div>
 

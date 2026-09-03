@@ -31,7 +31,7 @@ export function AuthProvider({ children }) {
 
     if (!matched) {
       setLoading(false);
-      throw new Error("Invalid email or password. Use one of the demo accounts shown below.");
+      throw new Error("Invalid email or password. Please check your details and try again.");
     }
 
     const demoUser = {

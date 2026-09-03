@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import PublicLayout from "../components/PublicLayout";
 
 const images = [
-  "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=85",
-  "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=85",
-  "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1000&q=85",
-  "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=85",
+  "https://images.pexels.com/photos/4913904/pexels-photo-4913904.jpeg?auto=compress&cs=tinysrgb&w=1800",
+  "https://images.pexels.com/photos/9545751/pexels-photo-9545751.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  "https://images.pexels.com/photos/4536012/pexels-photo-4536012.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  "https://images.pexels.com/photos/13144880/pexels-photo-13144880.jpeg?auto=compress&cs=tinysrgb&w=1400",
 ];
 
 function Rail() { return <div className="mt-8 flex snap-x gap-4 overflow-x-auto pb-3 scrollbar-thin">{images.map((src,i)=><img key={src} src={src} alt={`DriveWise training ${i+1}`} className="h-44 w-[76vw] shrink-0 snap-start rounded-2xl object-cover sm:w-72" />)}</div>; }

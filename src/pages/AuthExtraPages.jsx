@@ -1,18 +1,27 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, CheckCircle2, LockKeyhole, Mail, UserRound } from "lucide-react";
+import { ArrowRight, CheckCircle2, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import ThemeToggle from "../components/ThemeToggle";
 import { Logo } from "../components/PublicLayout";
 import { useAuth } from "../context/AuthContext";
 
 function Shell({children,title,sub,compact=false}){
+  const { user } = useAuth();
+  const nav = useNavigate();
   return (
     <div className={`auth-page ${compact ? "auth-signup-page" : ""} min-h-screen bg-executive-950 px-4 py-6 text-white sm:px-6 sm:py-10`}>
       <div className="mx-auto w-full max-w-lg">
         <div className="flex items-center justify-between gap-4">
           <Logo />
-          <ThemeToggle compact />
+          <div className="flex items-center gap-2">
+            {user && (
+              <button type="button" onClick={() => nav(user.role === "admin" ? "/admin" : "/dashboard")} className="auth-back-link">
+                Dashboard
+              </button>
+            )}
+            <ThemeToggle compact />
+          </div>
         </div>
 
         <motion.div

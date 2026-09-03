@@ -151,27 +151,9 @@ dist/
 npm run preview
 ```
 
-## 🔐 Demo Login Accounts
+## 🔐 Authentication
 
-The current frontend includes demo authentication accounts.
-
-### Admin
-
-```text
-Email: admin@drivewise.com
-Password: 123456
-Role: Admin
-```
-
-### Student
-
-```text
-Email: student@drivewise.com
-Password: 123456
-Role: Student
-```
-
-> These credentials are intended for frontend demonstration only. Replace the demo authentication with secure server-side authentication before using the application in production.
+The frontend includes role-aware authentication for demonstration and development. Login and registration screens intentionally do not display account credentials in the public UI. In production, connect these flows to secure server-side authentication and authorization.
 
 ## 🌐 Application Routes
 

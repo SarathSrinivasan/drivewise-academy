@@ -25,7 +25,7 @@ function ProfileMenu({ user, logout, goDashboard }) {
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
   }, []);
-  return <div className="relative" ref={ref}>
+  return <div className="profile-menu" ref={ref}>
     <button type="button" onClick={() => setOpen(v => !v)} aria-expanded={open} aria-label="Open account menu" title="Account menu" className="profile-menu-trigger">
       <UserCircle2 size={20}/><ChevronDown size={13} className={open ? "rotate-180 transition" : "transition"}/>
     </button>
