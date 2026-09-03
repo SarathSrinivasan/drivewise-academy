@@ -1,0 +1,1466 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, sans-serif;
+  color: #f8fafc;
+  background: #020617;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  color-scheme: dark;
+  --dw-bg: #020617;
+  --dw-surface: rgba(15, 23, 42, 0.86);
+  --dw-surface-solid: #0f172a;
+  --dw-panel: rgba(255, 255, 255, 0.045);
+  --dw-border: rgba(255, 255, 255, 0.09);
+  --dw-border-soft: rgba(255, 255, 255, 0.06);
+  --dw-text: #f8fafc;
+  --dw-muted: #94a3b8;
+  --dw-subtle: #64748b;
+  --dw-input: rgba(15, 23, 42, 0.7);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--dw-bg);
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(212, 175, 55, 0.08), transparent 28%),
+    radial-gradient(circle at 85% 85%, rgba(59, 130, 246, 0.07), transparent 30%),
+    var(--dw-bg);
+  color: var(--dw-text);
+  transition: background 220ms ease, color 220ms ease;
+}
+
+* { box-sizing: border-box; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+::selection { background: rgba(212, 175, 55, 0.3); color: white; }
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--dw-bg); }
+::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.35); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.65); }
+
+.glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
+  border: 1px solid rgba(255,255,255,0.09);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 0 20px 70px rgba(0,0,0,0.22), inset 0 1px rgba(255,255,255,0.04);
+}
+.glass-dark {
+  background: rgba(2,6,23,0.68);
+  border: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.glass-gold {
+  border: 1px solid rgba(212,175,55,0.22);
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.04), 0 20px 70px rgba(0,0,0,0.25);
+}
+.ambient-gold { position: relative; }
+.ambient-gold::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  left: -180px;
+  top: -180px;
+  background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 68%);
+  pointer-events: none;
+}
+.ambient-blue { position: relative; }
+.ambient-blue::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  right: -240px;
+  bottom: -250px;
+  background: radial-gradient(circle, rgba(37,99,235,0.11), transparent 70%);
+  pointer-events: none;
+}
+.text-gold-gradient {
+  background: linear-gradient(120deg, #8f7014, #d4af37, #f5c542, #d4af37);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+.executive-input {
+  width: 100%;
+  background: rgba(15,23,42,0.7);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 15px 16px;
+  color: #f8fafc;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+.executive-input::placeholder { color: #64748b; }
+.executive-input:hover { background: rgba(15,23,42,0.85); }
+.executive-input:focus {
+  border-color: rgba(212,175,55,0.6);
+  box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
+}
+select.executive-input option { background: #0f172a; color: white; }
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-weight: 700;
+  color: #09090b;
+  background: linear-gradient(135deg, #b8941f, #d4af37, #f5c542);
+  box-shadow: 0 10px 35px rgba(212,175,55,0.18);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.btn-gold:hover { transform: translateY(-1px); box-shadow: 0 15px 45px rgba(212,175,55,0.28); }
+.btn-gold:active { transform: translateY(0); }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: #e2e8f0;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  transition: all 180ms ease;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.08); border-color: rgba(212,175,55,0.25); }
+.status-confirmed { color:#86efac; background:rgba(34,197,94,0.09); border-color:rgba(34,197,94,0.18); }
+.status-pending { color:#fde68a; background:rgba(234,179,8,0.09); border-color:rgba(234,179,8,0.18); }
+.status-completed { color:#93c5fd; background:rgba(59,130,246,0.09); border-color:rgba(59,130,246,0.18); }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--dw-border);
+  color: var(--dw-muted);
+  background: var(--dw-panel);
+  backdrop-filter: blur(14px);
+  transition: all 180ms ease;
+  font-size: 11px;
+  font-weight: 700;
+}
+.theme-toggle:hover {
+  color: var(--dw-text);
+  border-color: rgba(212,175,55,0.35);
+  background: rgba(212,175,55,0.08);
+  transform: translateY(-1px);
+}
+.theme-toggle-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  color: #f5c542;
+}
+.theme-toggle-compact {
+  width: 40px;
+  min-width: 40px;
+  padding: 8px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
+}
+
+@media (max-width: 768px) {
+  .ambient-gold::before, .ambient-blue::after { opacity: 0.45; }
+}
+
+/* =========================================================
+   LIGHT MODE
+   The existing pages were authored with dark utility classes.
+   These overrides preserve the design while translating those
+   shared surfaces, text, borders and controls into a premium
+   warm-light palette.
+========================================================= */
+
+html.light {
+  color-scheme: light;
+  --dw-bg: #f4f1ea;
+  --dw-surface: rgba(255,255,255,0.9);
+  --dw-surface-solid: #ffffff;
+  --dw-panel: rgba(15,23,42,0.035);
+  --dw-border: rgba(15,23,42,0.11);
+  --dw-border-soft: rgba(15,23,42,0.07);
+  --dw-text: #172033;
+  --dw-muted: #475569;
+  --dw-subtle: #64748b;
+  --dw-input: rgba(255,255,255,0.92);
+}
+
+html.light body {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(212,175,55,0.12), transparent 30%),
+    radial-gradient(circle at 90% 100%, rgba(59,130,246,0.07), transparent 32%),
+    var(--dw-bg);
+  color: var(--dw-text);
+}
+
+html.light ::selection {
+  background: rgba(212,175,55,0.25);
+  color: #172033;
+}
+
+/* Page backgrounds */
+html.light .bg-executive-950 { background-color: #f4f1ea !important; }
+html.light .bg-executive-900 { background-color: #ffffff !important; }
+html.light .bg-executive-850 { background-color: #ffffff !important; }
+html.light .bg-executive-800 { background-color: #f8f6f1 !important; }
+html.light .bg-slate-950 { background-color: #ffffff !important; }
+html.light .bg-slate-900 { background-color: #ffffff !important; }
+html.light .bg-slate-800 { background-color: #f8f6f1 !important; }
+html.light .bg-slate-700 { background-color: #eef0f3 !important; }
+
+/* Semi-transparent dark surfaces */
+html.light [class~="bg-slate-950/95"] { background-color: rgba(255,255,255,0.97) !important; }
+html.light [class~="bg-slate-950/80"] { background-color: rgba(255,255,255,0.88) !important; }
+html.light [class~="bg-slate-950/70"] { background-color: rgba(255,255,255,0.86) !important; }
+html.light [class~="bg-slate-950/50"] { background-color: rgba(15,23,42,0.04) !important; }
+html.light [class~="bg-slate-950/40"] { background-color: rgba(15,23,42,0.035) !important; }
+html.light [class~="bg-slate-950/30"] { background-color: rgba(255,255,255,0.45) !important; }
+html.light [class~="bg-slate-900/80"] { background-color: rgba(255,255,255,0.9) !important; }
+html.light [class~="bg-slate-900"] { background-color: #ffffff !important; }
+html.light [class~="bg-slate-950"] { background-color: #ffffff !important; }
+
+/* White translucent panels */
+html.light [class~="bg-white/[0.075]"] { background-color: rgba(15,23,42,0.035) !important; }
+html.light [class~="bg-white/[0.05]"] { background-color: rgba(15,23,42,0.04) !important; }
+html.light [class~="bg-white/[0.04]"] { background-color: rgba(15,23,42,0.035) !important; }
+html.light [class~="bg-white/[0.03]"] { background-color: rgba(15,23,42,0.025) !important; }
+html.light [class~="bg-white/[0.025]"] { background-color: rgba(15,23,42,0.022) !important; }
+html.light [class~="bg-white/[0.02]"] { background-color: rgba(15,23,42,0.018) !important; }
+html.light [class~="bg-white/[0.015]"] { background-color: rgba(15,23,42,0.014) !important; }
+html.light [class~="bg-white/[0.01]"] { background-color: rgba(15,23,42,0.01) !important; }
+
+/* Text */
+html.light [class~="text-white"] { color: #172033 !important; }
+html.light [class~="text-slate-300"] { color: #475569 !important; }
+html.light [class~="text-slate-400"] { color: #64748b !important; }
+html.light [class~="text-slate-500"] { color: #64748b !important; }
+html.light [class~="text-slate-600"] { color: #7b8798 !important; }
+html.light [class~="text-slate-700"] { color: #475569 !important; }
+
+/* Borders / dividers */
+html.light [class~="border-white/10"] { border-color: rgba(15,23,42,0.11) !important; }
+html.light [class~="border-white/5"] { border-color: rgba(15,23,42,0.075) !important; }
+html.light [class~="border-white/[0.06]"] { border-color: rgba(15,23,42,0.075) !important; }
+html.light [class~="border-white/[0.035]"] { border-color: rgba(15,23,42,0.055) !important; }
+html.light [class~="border-white/[0.025]"] { border-color: rgba(15,23,42,0.045) !important; }
+
+/* Shared components */
+html.light .glass {
+  background: linear-gradient(135deg, rgba(255,255,255,0.94), rgba(255,255,255,0.72));
+  border-color: rgba(15,23,42,0.10);
+  box-shadow: 0 18px 55px rgba(15,23,42,0.08), inset 0 1px rgba(255,255,255,0.8);
+}
+html.light .glass-dark {
+  background: rgba(255,255,255,0.86);
+  border-color: rgba(15,23,42,0.09);
+}
+html.light .glass-gold {
+  border-color: rgba(212,175,55,0.42);
+  box-shadow: 0 0 0 1px rgba(212,175,55,0.08), 0 18px 55px rgba(15,23,42,0.08);
+}
+html.light .executive-input {
+  background: var(--dw-input);
+  color: #172033;
+  border-color: rgba(15,23,42,0.12);
+}
+html.light .executive-input::placeholder { color: #94a3b8; }
+html.light .executive-input:hover { background: #ffffff; }
+html.light select.executive-input option {
+  background: #ffffff;
+  color: #172033;
+}
+html.light .btn-secondary {
+  color: #334155;
+  background: rgba(15,23,42,0.035);
+  border-color: rgba(15,23,42,0.10);
+}
+html.light .btn-secondary:hover {
+  background: rgba(15,23,42,0.06);
+  border-color: rgba(212,175,55,0.35);
+}
+
+/* Dark overlays used on full-bleed imagery should remain dark */
+html.light [class~="bg-black/50"] { background-color: rgba(0,0,0,0.50) !important; }
+html.light [class~="bg-black/30"] { background-color: rgba(0,0,0,0.30) !important; }
+html.light [class~="bg-black/80"] { background-color: rgba(0,0,0,0.80) !important; }
+html.light [class~="bg-black/70"] { background-color: rgba(0,0,0,0.70) !important; }
+
+/* Common dark gradient hero layers remain legible over photography */
+html.light .bg-gradient-to-r.from-slate-950,
+html.light .bg-gradient-to-t.from-slate-950 {
+  --tw-gradient-from: rgba(2,6,23,0.90) !important;
+}
+html.light .from-slate-950 { --tw-gradient-from: rgba(2,6,23,0.88) !important; }
+html.light .via-slate-950\/90 { --tw-gradient-via: rgba(2,6,23,0.82) !important; }
+html.light .to-slate-950\/55 { --tw-gradient-to: rgba(2,6,23,0.35) !important; }
+
+/* Theme toggle remains visually premium in both themes */
+html.light .theme-toggle {
+  color: #475569;
+  background: rgba(255,255,255,0.75);
+  border-color: rgba(15,23,42,0.12);
+  box-shadow: 0 6px 20px rgba(15,23,42,0.06);
+}
+html.light .theme-toggle:hover {
+  color: #172033;
+  background: rgba(212,175,55,0.10);
+}
+
+/* Preserve dark text on gold buttons */
+html.light .btn-gold,
+html.light [class~="bg-gold-500"] {
+  color: #09090b !important;
+}
+
+/* Preserve status colors */
+html.light .status-confirmed { color:#15803d !important; background:rgba(34,197,94,0.10) !important; }
+html.light .status-pending { color:#a16207 !important; background:rgba(234,179,8,0.12) !important; }
+html.light .status-completed { color:#1d4ed8 !important; background:rgba(59,130,246,0.10) !important; }
+
+
+/* =========================================================
+   DRIVEWISE UI POLISH
+   Medium readable typography, stronger contrast and responsive
+   dashboard controls across desktop, tablet and mobile.
+========================================================= */
+.admin-dashboard { font-size: 14px; letter-spacing: -0.005em; }
+.admin-dashboard .text-xs { font-size: 0.875rem !important; line-height: 1.35rem !important; }
+.admin-dashboard [class*="text-[10px]"] { font-size: 0.72rem !important; line-height: 1.1rem !important; }
+.admin-dashboard [class*="text-[9px]"] { font-size: 0.66rem !important; line-height: 1rem !important; }
+.admin-dashboard h1, .admin-dashboard h2, .admin-dashboard h3 { letter-spacing: -0.02em; }
+.admin-dashboard .executive-input { min-height: 48px; font-size: 0.875rem; }
+.admin-dashboard .btn-secondary, .admin-dashboard .btn-gold { min-height: 46px; }
+.admin-dashboard table td { vertical-align: middle; }
+.admin-dashboard main { width: 100%; overflow-x: hidden; }
+.admin-dashboard .admin-hero { min-height: 150px; display: flex; align-items: center; }
+
+html.light .admin-dashboard .admin-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f4ec 58%, #eee9dc 100%) !important;
+  border-color: rgba(15,23,42,0.10) !important;
+  box-shadow: 0 18px 55px rgba(15,23,42,0.08) !important;
+}
+html.light .admin-dashboard .admin-hero h2 { color: #172033 !important; }
+html.light .admin-dashboard .admin-hero p { color: #526174 !important; }
+html.light .admin-dashboard .admin-hero .text-gold-gradient { color: #a77a08 !important; background: none !important; }
+html.light .admin-dashboard header { background: rgba(255,255,255,0.94) !important; border-color: rgba(15,23,42,0.08) !important; }
+html.light .admin-dashboard aside { background: rgba(255,255,255,0.98) !important; border-color: rgba(15,23,42,0.08) !important; }
+html.light .admin-dashboard .glass { color: #172033; }
+html.light .admin-dashboard .glass .text-slate-500 { color: #526174 !important; }
+html.light .admin-dashboard .glass .text-slate-600 { color: #66758a !important; }
+html.light .admin-dashboard .status-confirmed,
+html.light .admin-dashboard .status-pending,
+html.light .admin-dashboard .status-completed { font-weight: 800; }
+
+@media (max-width: 1023px) {
+  .admin-dashboard { font-size: 14px; }
+  .admin-dashboard aside { width: min(84vw, 300px); }
+}
+@media (max-width: 639px) {
+  .admin-dashboard .admin-hero { min-height: 170px; }
+  .admin-dashboard .admin-hero h2 { font-size: 1.55rem; line-height: 1.2; }
+  .admin-dashboard main { padding-left: 1rem !important; padding-right: 1rem !important; }
+  .admin-dashboard .glass { border-radius: 16px; }
+}
+
+
+/* Final readability + responsive admin pass */
+.admin-dashboard { font-size: 14px; }
+.admin-dashboard p, .admin-dashboard span, .admin-dashboard td, .admin-dashboard th, .admin-dashboard button, .admin-dashboard input, .admin-dashboard select, .admin-dashboard textarea { line-height: 1.5; }
+.admin-dashboard .executive-input { min-height: 48px; font-size: 14px; }
+.admin-dashboard .text-xs { font-size: 0.82rem !important; }
+.admin-dashboard .text-\[10px\] { font-size: 0.68rem !important; }
+.admin-dashboard .text-\[9px\] { font-size: 0.64rem !important; }
+.admin-dashboard table th { font-size: 0.68rem !important; }
+@media (max-width: 1024px) {
+  .admin-dashboard main { padding-left: 1rem !important; padding-right: 1rem !important; }
+  .admin-dashboard .glass { border-radius: 1rem; }
+}
+@media (max-width: 640px) {
+  .admin-dashboard { font-size: 13.5px; }
+  .admin-dashboard .btn-gold, .admin-dashboard .btn-secondary { min-height: 44px; }
+  .admin-dashboard .executive-input { min-height: 46px; }
+}
+
+html.light .admin-dashboard .admin-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f4ec 100%) !important;
+  border-color: rgba(15,23,42,.10) !important;
+}
+html.light .admin-dashboard .admin-hero h2 { color: #172033 !important; }
+html.light .admin-dashboard .admin-hero p { color: #64748b !important; }
+html.light .admin-dashboard .executive-input { background: #fff !important; color: #172033 !important; border-color: rgba(15,23,42,.13) !important; }
+html.light .admin-dashboard .executive-input::placeholder { color: #64748b !important; }
+html.light .admin-dashboard .btn-secondary { color: #334155 !important; background: #fff !important; border-color: rgba(15,23,42,.12) !important; }
+html.light .admin-dashboard .glass { color: #172033; }
+
+
+/* =========================================================
+   FINAL ADMIN TYPOGRAPHY + SEARCH TOOLBAR FIX
+   Medium readable type and stable responsive controls.
+========================================================= */
+.admin-dashboard .text-xs,
+.admin-dashboard .text-sm {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+}
+
+.admin-dashboard .text-\[10px\] {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+.admin-dashboard .text-\[9px\] {
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+}
+
+.admin-dashboard input.executive-input,
+.admin-dashboard select.executive-input,
+.admin-dashboard textarea.executive-input {
+  min-height: 50px !important;
+  height: 50px;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+  padding-left: 44px !important;
+  padding-right: 16px !important;
+}
+
+.admin-dashboard input.executive-input::placeholder {
+  font-size: 15px !important;
+  opacity: 1 !important;
+}
+
+.admin-dashboard .booking-toolbar {
+  display: grid;
+  width: 100%;
+  grid-template-columns: minmax(280px, 1fr) 150px 120px 140px;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-dashboard .booking-toolbar > * {
+  min-width: 0;
+  width: 100%;
+}
+
+.admin-dashboard .booking-toolbar .executive-input {
+  width: 100%;
+}
+
+.admin-dashboard .booking-toolbar button {
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+}
+
+@media (max-width: 1199px) {
+  .admin-dashboard .booking-toolbar {
+    grid-template-columns: minmax(220px, 1fr) 140px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-dashboard .booking-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-dashboard .booking-toolbar > * {
+    width: 100%;
+  }
+
+  .admin-dashboard input.executive-input,
+  .admin-dashboard select.executive-input {
+    min-height: 50px !important;
+    height: 50px;
+    font-size: 15px !important;
+  }
+
+  .admin-dashboard .text-xs,
+  .admin-dashboard .text-sm {
+    font-size: 14px !important;
+  }
+}
+
+/* Keep table headers compact but readable. */
+.admin-dashboard table th {
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+.admin-dashboard table td {
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+/* Light mode: search/input text must remain clearly visible. */
+html.light .admin-dashboard input.executive-input,
+html.light .admin-dashboard select.executive-input,
+html.light .admin-dashboard textarea.executive-input {
+  color: #172033 !important;
+  background: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.14) !important;
+}
+
+html.light .admin-dashboard input.executive-input::placeholder {
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+/* Booking/public navigation readability and safe responsive spacing */
+.booking-page input,
+.booking-page textarea,
+.booking-page select {
+  font-size: 15px;
+}
+
+/* =========================================================
+   FINAL READABILITY / TYPOGRAPHY PASS
+========================================================= */
+html, body {
+  font-size: 16px;
+}
+
+body {
+  line-height: 1.5;
+}
+
+.admin-dashboard {
+  font-size: 15px;
+}
+
+.admin-dashboard aside nav button {
+  min-height: 48px;
+  font-size: 15px !important;
+  line-height: 1.4 !important;
+}
+
+.admin-dashboard aside nav button svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+
+.admin-dashboard aside .admin-profile {
+  min-width: 0;
+}
+
+.admin-dashboard aside .admin-profile-name {
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.admin-dashboard aside .admin-profile-role {
+  margin-top: 3px;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+
+.admin-dashboard aside .admin-logout {
+  display: inline-flex;
+  min-width: 72px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(212,175,55,.18);
+  border-radius: 10px;
+  padding: 9px 10px;
+  color: #d4af37;
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+.public-site {
+  font-size: 16px;
+}
+
+.public-site header nav a {
+  font-size: 15px !important;
+}
+
+.public-site footer a,
+.public-site footer p {
+  font-size: 14px;
+}
+
+@media (max-width: 767px) {
+  .admin-dashboard aside {
+    width: min(310px, 88vw) !important;
+  }
+
+  .admin-dashboard aside nav button {
+    font-size: 15px !important;
+  }
+
+  .admin-dashboard aside .admin-profile-name {
+    font-size: 14px !important;
+  }
+}
+
+/* =========================================================
+   FIXED HEADER LOGOUT — always visible on admin/student
+========================================================= */
+.header-logout {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid rgba(212, 175, 55, .24);
+  border-radius: 10px;
+  background: rgba(255,255,255,.035);
+  color: #dbe4f0;
+  font-size: 14px !important;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.header-logout:hover {
+  color: #f2c94c;
+  border-color: rgba(212, 175, 55, .55);
+  background: rgba(212, 175, 55, .08);
+}
+
+html.light .header-logout {
+  background: #fff;
+  border-color: rgba(15,23,42,.14);
+  color: #334155;
+}
+
+html.light .header-logout:hover {
+  color: #9a7410;
+  border-color: rgba(154,116,16,.35);
+  background: #fffbeb;
+}
+
+@media (max-width: 767px) {
+  .header-logout {
+    min-height: 40px;
+    padding: 0 10px;
+    font-size: 13px !important;
+  }
+
+  .header-logout span {
+    display: inline;
+  }
+}
+
+/* Admin account / logout card */
+.admin-account-card {
+  backdrop-filter: blur(14px);
+}
+.admin-account-card .admin-logout {
+  min-height: 44px;
+  font-size: 14px !important;
+}
+html.light .admin-account-card {
+  background: #ffffff;
+  border-color: rgba(15,23,42,.12);
+  box-shadow: 0 8px 30px rgba(15,23,42,.06);
+}
+html.light .admin-account-card .admin-profile-name {
+  color: #172033;
+}
+
+/* =========================================================
+   AUTH PAGES — SIGNUP / FORGOT PASSWORD
+========================================================= */
+.auth-page {
+  min-height: 100svh;
+}
+
+.auth-card {
+  border: 1px solid rgba(148,163,184,.16);
+  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+}
+
+.auth-input {
+  min-height: 52px !important;
+  height: 52px;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+.auth-input::placeholder {
+  font-size: 15px !important;
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+html.light .auth-page {
+  background: #f5f7fb;
+  color: #172033;
+}
+
+html.light .auth-card {
+  background: #ffffff !important;
+  border-color: rgba(15,23,42,.12);
+  box-shadow: 0 20px 60px rgba(15,23,42,.10);
+}
+
+html.light .auth-card .text-slate-400 {
+  color: #526174 !important;
+}
+
+html.light .auth-card .text-slate-500 {
+  color: #64748b !important;
+}
+
+html.light .auth-input {
+  background: #ffffff !important;
+  color: #172033 !important;
+  border-color: rgba(15,23,42,.14) !important;
+}
+
+html.light .auth-input::placeholder {
+  color: #64748b !important;
+}
+
+@media (max-width: 480px) {
+  .auth-page {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .auth-card {
+    padding: 22px 18px !important;
+    margin-top: 24px;
+  }
+
+  .auth-card h1 {
+    font-size: 30px !important;
+  }
+
+  .auth-card p {
+    font-size: 14px;
+  }
+
+  .auth-input {
+    min-height: 52px !important;
+    height: 52px;
+    font-size: 16px !important;
+  }
+}
+
+/* =========================================================
+   TOP-RIGHT ACCOUNT ACTION
+========================================================= */
+.header-action-button {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(212,175,55,.24);
+  border-radius: 11px;
+  background: rgba(255,255,255,.035);
+  color: #dbe4f0;
+  transition: .2s ease;
+}
+.header-action-button:hover {
+  color: #f5c542;
+  border-color: rgba(212,175,55,.55);
+  background: rgba(212,175,55,.08);
+}
+html.light .header-action-button {
+  background: #fff;
+  color: #334155;
+  border-color: rgba(15,23,42,.14);
+}
+
+/* Get Started / Signup fits in one viewport on normal phones. */
+.auth-signup-page {
+  height: 100svh;
+  min-height: 100svh;
+  overflow: hidden;
+}
+.auth-signup-page .auth-card {
+  margin-top: 24px;
+  padding: 28px;
+}
+.auth-signup-page .auth-card form {
+  margin-top: 22px;
+}
+.auth-signup-page .auth-card form {
+  display: grid;
+  gap: 12px;
+}
+.auth-signup-page .auth-card form > label {
+  margin: 0;
+}
+.auth-signup-page .auth-card form .auth-input {
+  min-height: 46px !important;
+  height: 46px;
+}
+.auth-signup-page .auth-card form button {
+  min-height: 48px;
+}
+@media (max-width: 480px) {
+  .auth-signup-page {
+    padding: 10px 14px !important;
+  }
+  .auth-signup-page .auth-card {
+    margin-top: 12px;
+    padding: 18px !important;
+    border-radius: 22px;
+  }
+  .auth-signup-page .auth-card h1 {
+    font-size: 28px !important;
+    line-height: 1.15;
+  }
+  .auth-signup-page .auth-card > p {
+    font-size: 13px !important;
+    line-height: 1.45;
+  }
+  .auth-signup-page .auth-card form {
+    margin-top: 16px;
+    gap: 9px;
+  }
+  .auth-signup-page .auth-card form > label > span {
+    margin-bottom: 4px;
+    font-size: 12px !important;
+  }
+  .auth-signup-page .auth-card form .auth-input {
+    min-height: 43px !important;
+    height: 43px;
+    padding: 9px 12px !important;
+    font-size: 14px !important;
+  }
+  .auth-signup-page .auth-card form button {
+    min-height: 44px;
+    padding: 9px 14px !important;
+    font-size: 14px !important;
+  }
+  .auth-signup-page .auth-card > p:last-child {
+    margin-top: 12px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Student account header: one logout icon only. Profile photo is the profile shortcut. */
+.student-profile-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: min(240px, 32vw);
+}
+.student-profile-trigger img {
+  flex: 0 0 40px;
+}
+@media (max-width: 640px) {
+  .student-profile-trigger {
+    max-width: none;
+  }
+  .student-profile-trigger span {
+    display: none;
+  }
+}
+
+/* =========================================================
+   STUDENT PROFILE PHOTO + HEADER ACTIONS
+========================================================= */
+.student-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-photo-editor {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 26px;
+  padding: 18px;
+  border: 1px solid rgba(212,175,55,.16);
+  border-radius: 18px;
+  background: rgba(255,255,255,.025);
+}
+
+.profile-photo-button {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  flex: 0 0 88px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 2px solid rgba(212,175,55,.5);
+  background: #111827;
+  cursor: pointer;
+}
+
+.profile-photo-button img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.profile-photo-button span {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 6px 3px;
+  background: rgba(0,0,0,.72);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.profile-photo-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+html.light .profile-photo-editor {
+  background: #fff;
+  border-color: rgba(15,23,42,.12);
+}
+
+html.light .profile-photo-editor .text-slate-500 {
+  color: #64748b !important;
+}
+
+@media (max-width: 640px) {
+  .profile-photo-editor {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+/* One compact logout symbol in the Student header. */
+.student-header-actions .header-action-button {
+  width: 42px;
+  height: 42px;
+}
+
+/* =========================================================
+   RTL / LTR DIRECTION TOGGLE
+========================================================= */
+.direction-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 58px;
+  height: 42px;
+  padding: 0 10px;
+  border: 1px solid rgba(212,175,55,.24);
+  border-radius: 11px;
+  background: rgba(255,255,255,.035);
+  color: #dbe4f0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  transition: .2s ease;
+}
+.direction-toggle:hover {
+  color: #f5c542;
+  border-color: rgba(212,175,55,.55);
+  background: rgba(212,175,55,.08);
+}
+html.light .direction-toggle {
+  background: #fff;
+  color: #334155;
+  border-color: rgba(15,23,42,.14);
+}
+html.light .direction-toggle:hover {
+  color: #9a7410;
+  border-color: rgba(154,116,16,.35);
+  background: #fffbeb;
+}
+@media (max-width: 640px) {
+  .direction-toggle {
+    min-width: 42px;
+    width: 42px;
+    padding: 0;
+  }
+  .direction-toggle span { display: none; }
+}
+
+/* =========================================================
+   STUDENT DASHBOARD — CLEAN HEADER + PROFILE ENTRY
+========================================================= */
+.student-header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px !important;
+  flex-shrink: 0;
+}
+.student-header-actions .theme-toggle-compact,
+.student-header-actions .header-action-button {
+  margin: 0 !important;
+}
+
+.student-sidebar-profile {
+  cursor: pointer;
+  color: inherit;
+  background: rgba(255,255,255,.015);
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.student-sidebar-profile:hover {
+  border-color: rgba(212,175,55,.35);
+  background: rgba(212,175,55,.06);
+  transform: translateY(-1px);
+}
+.student-profile-name {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.student-profile-role {
+  margin-top: 2px;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+  font-weight: 800;
+}
+.student-dashboard nav button {
+  min-height: 48px;
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+.student-dashboard main {
+  font-size: 15px;
+}
+.student-dashboard main .text-xs {
+  font-size: 13px !important;
+}
+.student-dashboard main .text-sm {
+  font-size: 15px !important;
+}
+.student-dashboard main h1 {
+  font-size: clamp(30px, 3vw, 42px) !important;
+}
+.student-dashboard main h2 {
+  font-size: clamp(24px, 2.2vw, 32px) !important;
+}
+.student-dashboard main h3 {
+  font-size: 19px !important;
+}
+
+html.light .student-sidebar-profile {
+  background: #fff;
+  border-color: rgba(15,23,42,.11);
+}
+html.light .student-sidebar-profile:hover {
+  background: #fffbeb;
+  border-color: rgba(154,116,16,.28);
+}
+html.light .student-profile-name {
+  color: #172033;
+}
+
+@media (max-width: 640px) {
+  .student-header-actions {
+    gap: 4px !important;
+  }
+  .student-header-actions .header-action-button,
+  .student-header-actions .theme-toggle-compact {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+  }
+  .student-dashboard nav button {
+    font-size: 15px !important;
+  }
+}
+
+/* Student Next Session — compact, fixed Confirmed badge */
+.student-confirmed-badge {
+  display: inline-flex;
+  width: max-content;
+  min-width: 0;
+  height: 32px;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 13px;
+  border: 1px solid rgba(34,197,94,.28);
+  border-radius: 9999px;
+  background: rgba(34,197,94,.08);
+  color: #86efac;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+html.light .student-confirmed-badge {
+  border-color: rgba(22,163,74,.25);
+  background: rgba(22,163,74,.08);
+  color: #15803d;
+}
+@media (max-width: 480px) {
+  .student-confirmed-badge {
+    height: 30px;
+    min-height: 30px;
+    padding: 0 11px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   PAYMENT CHECKOUT
+========================================================= */
+.payment-page .executive-input {
+  min-height: 50px;
+  font-size: 15px;
+}
+@media (max-width: 640px) {
+  .payment-page main {
+    padding-bottom: 32px;
+  }
+}
+
+/* Student payment history: Pay Now is a clear right-aligned action */
+.student-payment-row {
+  min-height: 76px;
+}
+.student-pay-now-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 108px;
+  min-height: 42px;
+  padding: 0 17px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #d4af37, #f5c842);
+  color: #090d19;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 8px 22px rgba(212,175,55,.16);
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.student-pay-now-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 11px 28px rgba(212,175,55,.24);
+}
+.payment-status-badge {
+  display: inline-flex;
+  width: max-content;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  padding: 0 11px;
+  border-radius: 9999px;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.payment-paid {
+  border: 1px solid rgba(34,197,94,.25);
+  background: rgba(34,197,94,.08);
+  color: #4ade80;
+}
+.payment-pending {
+  border: 1px solid rgba(245,158,11,.28);
+  background: rgba(245,158,11,.09);
+  color: #fbbf24;
+}
+.payment-complete-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #4ade80;
+  font-size: 12px;
+  font-weight: 700;
+}
+html.light .payment-paid {
+  color: #15803d;
+  background: rgba(22,163,74,.07);
+}
+html.light .payment-pending {
+  color: #a16207;
+  background: rgba(234,179,8,.09);
+}
+html.light .payment-complete-label {
+  color: #15803d;
+}
+@media (max-width: 639px) {
+  .student-payment-row {
+    grid-template-columns: 1fr auto;
+  }
+  .student-payment-row > span:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+  .student-payment-row > span:nth-child(3) {
+    grid-column: 1;
+  }
+  .student-payment-row > span:nth-child(4) {
+    grid-column: 2;
+    justify-self: end;
+  }
+  .student-payment-row > div {
+    grid-column: 1 / -1;
+  }
+  .student-payment-row .student-pay-now-btn {
+    width: 100%;
+  }
+}
+
+/* Final payment-table alignment: every column shares the same baseline/center. */
+.student-payment-row {
+  display: grid !important;
+  grid-template-columns: minmax(150px,1.15fr) minmax(180px,2fr) minmax(90px,.75fr) minmax(90px,1fr) 130px !important;
+  align-items: center !important;
+  column-gap: 22px !important;
+}
+.student-payment-row > * {
+  min-width: 0;
+  align-self: center !important;
+  margin: 0 !important;
+}
+.student-payment-row > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+}
+.student-payment-row > span:nth-child(1) {
+  justify-content: flex-start;
+}
+.student-payment-row > span:nth-child(2) {
+  justify-content: flex-start;
+}
+.student-payment-row > span:nth-child(3) {
+  justify-content: flex-start;
+}
+.student-payment-row > span:nth-child(4) {
+  justify-content: center;
+}
+.student-payment-row > div {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+}
+.student-pay-now-btn {
+  width: 108px;
+  min-width: 108px;
+  height: 42px;
+  min-height: 42px;
+  margin: 0 !important;
+}
+.payment-complete-label {
+  min-width: 108px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 900px) and (min-width: 640px) {
+  .student-payment-row {
+    grid-template-columns: minmax(125px,1.1fr) minmax(145px,1.7fr) 80px 95px 112px !important;
+    column-gap: 12px !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .student-payment-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    column-gap: 12px !important;
+  }
+  .student-payment-row > span:nth-child(1),
+  .student-payment-row > span:nth-child(2),
+  .student-payment-row > span:nth-child(3),
+  .student-payment-row > span:nth-child(4),
+  .student-payment-row > div {
+    justify-content: flex-start;
+  }
+  .student-payment-row > span:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+  .student-payment-row > span:nth-child(3) {
+    grid-column: 1;
+  }
+  .student-payment-row > span:nth-child(4) {
+    grid-column: 2;
+    justify-self: end;
+    justify-content: flex-end;
+  }
+  .student-payment-row > div {
+    grid-column: 1 / -1;
+    justify-content: stretch !important;
+  }
+  .student-payment-row .student-pay-now-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   FINAL LIGHT-MODE CONTRAST FIX
+   Light mode must never leave dark text on dark dashboard
+   heroes, while image-based public heroes keep their white
+   text over the dark photographic overlay.
+========================================================= */
+
+/* Student dashboard: convert internal page heroes to a clean light surface. */
+html.light .student-dashboard .bg-gradient-to-r.from-slate-900.to-slate-950 {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f4ec 100%) !important;
+  border-color: rgba(15,23,42,.10) !important;
+  box-shadow: 0 18px 55px rgba(15,23,42,.07);
+}
+html.light .student-dashboard .bg-gradient-to-r.from-slate-900.to-slate-950 h1,
+html.light .student-dashboard .bg-gradient-to-r.from-slate-900.to-slate-950 .font-jakarta {
+  color: #172033 !important;
+}
+html.light .student-dashboard .bg-gradient-to-r.from-slate-900.to-slate-950 p {
+  color: #526174 !important;
+}
+html.light .student-dashboard .text-gold-gradient {
+  color: #a77a08 !important;
+  background: none !important;
+  -webkit-text-fill-color: #a77a08 !important;
+}
+
+/* Student dashboard surfaces, labels and dividers. */
+html.light .student-dashboard .border-white\/5,
+html.light .student-dashboard .border-white\/\[0\.06\] {
+  border-color: rgba(15,23,42,.09) !important;
+}
+html.light .student-dashboard .bg-white\/5 {
+  background-color: rgba(15,23,42,.045) !important;
+}
+html.light .student-dashboard .text-slate-600 {
+  color: #64748b !important;
+}
+html.light .student-dashboard .text-slate-500 {
+  color: #526174 !important;
+}
+html.light .student-dashboard .text-slate-400 {
+  color: #475569 !important;
+}
+html.light .student-dashboard .text-slate-300 {
+  color: #334155 !important;
+}
+html.light .student-dashboard header {
+  background: rgba(255,255,255,.94) !important;
+  border-color: rgba(15,23,42,.09) !important;
+}
+html.light .student-dashboard aside {
+  background: rgba(255,255,255,.98) !important;
+  border-color: rgba(15,23,42,.09) !important;
+}
+html.light .student-dashboard .glass {
+  color: #172033 !important;
+}
+
+/* Public header becomes readable in light mode. */
+html.light .public-site > header {
+  background: rgba(255,255,255,.95) !important;
+  border-color: rgba(15,23,42,.09) !important;
+  box-shadow: 0 6px 24px rgba(15,23,42,.05);
+}
+html.light .public-site > header .text-slate-400 {
+  color: #526174 !important;
+}
+html.light .public-site > header .text-slate-400:hover {
+  color: #172033 !important;
+}
+html.light .public-site > header .btn-secondary {
+  color: #334155 !important;
+  background: rgba(15,23,42,.035) !important;
+  border-color: rgba(15,23,42,.10) !important;
+}
+html.light .public-site > header .btn-secondary:hover {
+  color: #172033 !important;
+  background: rgba(15,23,42,.06) !important;
+}
+html.light .public-site > header button {
+  color: #475569;
+}
+html.light .public-site > header .border-white\/10 {
+  border-color: rgba(15,23,42,.10) !important;
+}
+
+/* Public image hero (Home + Info pages): keep white typography
+   because the photograph/overlay remains intentionally dark. */
+html.light .public-site .public-image-hero h1,
+html.light .public-site .public-image-hero p,
+html.light .public-site .public-image-hero .text-white,
+html.light .public-site .public-image-hero b {
+  color: #ffffff !important;
+}
+html.light .public-site .public-image-hero .text-gold-gradient {
+  color: #f5c542 !important;
+  background: none !important;
+  -webkit-text-fill-color: #f5c542 !important;
+}
+html.light .public-site .public-page-hero h1,
+html.light .public-site .public-page-hero p {
+  color: #ffffff !important;
+}
+html.light .public-site .public-page-hero .text-gold-gradient {
+  color: #f5c542 !important;
+  background: none !important;
+  -webkit-text-fill-color: #f5c542 !important;
+}
+
+/* Public content typography in light mode. */
+html.light .public-site h1,
+html.light .public-site h2,
+html.light .public-site h3 {
+  color: #172033;
+}
+html.light .public-site p.text-slate-500,
+html.light .public-site p.text-slate-400 {
+  color: #526174 !important;
+}
+html.light .public-site .border-white\/5 {
+  border-color: rgba(15,23,42,.08) !important;
+}
+html.light .public-site .bg-white\/\[0\.015\] {
+  background-color: rgba(15,23,42,.018) !important;
+}
+
+/* Better readable base type in light mode. */
+html.light body {
+  font-size: 15px;
+}
+html.light .public-site,
+html.light .student-dashboard,
+html.light .admin-dashboard {
+  color: #172033;
+}
+
+/* Payment/status text remains readable in both themes. */
+html.light .student-dashboard .payment-status-badge,
+html.light .student-dashboard .payment-complete-label {
+  font-weight: 800;
+}
