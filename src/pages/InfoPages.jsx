@@ -10,7 +10,43 @@ const courseData = [
   ["Manual Training", "Clutch control, gear selection, hill starts and confident manual road technique.", "$189", "5 hours", "Classic"]
 ];
 
-function PageHero({ eyebrow, title, desc, image }) { return <section className="public-page-hero relative overflow-hidden border-b border-white/5"><div className="absolute inset-0">{image && <img src={image} className="h-full w-full object-cover opacity-25" alt="" />}<div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/65" /></div><div className="relative mx-auto max-w-[1500px] px-5 py-24 sm:px-8 lg:px-10"><p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-400">{eyebrow}</p><h1 className="mt-4 max-w-4xl font-jakarta text-4xl font-extrabold sm:text-6xl">{title}</h1><p className="mt-5 max-w-2xl text-sm leading-7 text-slate-400">{desc}</p></div></section>; }
+const pageImageSets = {
+  "About DriveWise": [
+    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=900&q=85"
+  ],
+  "Driving Courses": [
+    "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=85"
+  ],
+  "Meet Your Coaches": [
+    "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=900&q=85"
+  ],
+  "Pricing & Packages": [
+    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=900&q=85"
+  ],
+  "Concierge & Enquiry": [
+    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=900&q=85",
+    "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=900&q=85"
+  ]
+};
+
+function PageHero({ eyebrow, title, desc, image }) {
+  const gallery = pageImageSets[eyebrow] || (image ? [image] : []);
+  return <section className="public-page-hero relative overflow-hidden border-b border-white/5"><div className="absolute inset-0">{image && <img src={image} className="h-full w-full object-cover opacity-25" alt="" />}<div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/65" /></div><div className="relative mx-auto max-w-[1500px] px-5 py-24 sm:px-8 lg:px-10"><p className="text-xs font-bold uppercase tracking-[0.3em] text-gold-400">{eyebrow}</p><h1 className="mt-4 max-w-4xl font-jakarta text-4xl font-extrabold sm:text-6xl">{title}</h1><p className="mt-5 max-w-2xl text-sm leading-7 text-slate-300">{desc}</p><div className="mt-8 flex snap-x gap-4 overflow-x-auto pb-2">{gallery.map((src, i) => <img key={src} src={src} alt={`${eyebrow} visual ${i + 1}`} className="h-28 w-56 shrink-0 snap-start rounded-xl object-cover ring-1 ring-white/10 sm:h-32 sm:w-64" />)}</div></div></section>;
+}
 
 export function AboutPage() { return <PublicLayout><PageHero eyebrow="About DriveWise" title="A smarter, safer way to learn to drive." desc="DriveWise Academy combines experienced instructors, structured methodology and premium service to help every student become a capable, responsible driver." image="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85" />
   {/* 2 */}<section className="mx-auto max-w-[1500px] px-5 py-20 sm:px-8 lg:px-10"><div className="grid gap-6 lg:grid-cols-2"><div className="glass rounded-2xl p-8"><Target className="text-gold-400" /><h2 className="mt-5 text-2xl font-bold">Mission & Vision</h2><p className="mt-4 text-sm leading-7 text-slate-500">Our mission is to develop calm, observant and confident drivers through practical coaching. Our vision is a road culture where safety, courtesy and skill are standard for every driver.</p></div><div className="glass rounded-2xl p-8"><ShieldCheck className="text-gold-400" /><h2 className="mt-5 text-2xl font-bold">Safety Standards</h2><p className="mt-4 text-sm leading-7 text-slate-500">Lessons emphasize defensive habits, hazard anticipation, vehicle checks, safe positioning and responsible decision-making in real road conditions.</p></div></div></section>
