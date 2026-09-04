@@ -1584,3 +1584,137 @@ html.light .admin-header-profile span.block:first-child {
   }
   .public-site header .profile-menu-trigger svg:first-child { width: 18px; height: 18px; }
 }
+
+
+/* =========================================================
+   FINAL MOBILE NAVIGATION
+   The drawer contains only site navigation + booking/help.
+   Dashboard access stays in the profile menu in the header.
+========================================================= */
+.mobile-nav-drawer {
+  height: 100dvh;
+  min-height: 100vh;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+.mobile-nav-inner {
+  box-sizing: border-box;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.5rem 1.5rem calc(2rem + env(safe-area-inset-bottom));
+}
+
+.mobile-nav-inner nav a {
+  min-height: 42px;
+}
+
+.mobile-nav-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.mobile-book-button {
+  min-height: 58px;
+  border-radius: 16px;
+  font-size: 1rem;
+}
+
+.mobile-assistance {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px;
+  background: rgba(255,255,255,.025);
+}
+
+.mobile-assistance a {
+  text-decoration: none;
+}
+
+.mobile-nav-settings {
+  display: none;
+}
+
+html.light .mobile-nav-drawer {
+  background: #ffffff;
+  color: #172033;
+}
+
+html.light .mobile-nav-drawer .mobile-assistance {
+  border-color: rgba(15,23,42,.09);
+  background: rgba(15,23,42,.025);
+}
+
+html.light .mobile-nav-drawer .mobile-assistance .text-white {
+  color: #172033 !important;
+}
+
+html.light .mobile-nav-drawer .mobile-nav-actions {
+  border-color: rgba(15,23,42,.09);
+}
+
+@media (max-width: 767px) {
+  .mobile-nav-settings {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .mobile-nav-settings .direction-toggle,
+  .mobile-nav-settings .theme-toggle {
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .mobile-nav-inner {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .mobile-nav-inner nav {
+    margin-top: 2rem;
+    gap: 1.05rem;
+  }
+
+  .mobile-nav-inner nav a {
+    font-size: 1.15rem;
+  }
+
+  .mobile-nav-actions {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+  }
+
+  .mobile-assistance {
+    padding: 13px;
+  }
+
+  .mobile-assistance a {
+    font-size: 1rem;
+  }
+}
+
+/* Prevent accidental horizontal page scrolling caused by wide media/cards. */
+html, body, #root {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.public-site {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}

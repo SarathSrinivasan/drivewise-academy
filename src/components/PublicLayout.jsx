@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, LogOut, UserCircle2, ChevronDown, LayoutDashboard, UserPlus, LogIn, Home, BriefcaseBusiness, BookOpen } from "lucide-react";
+import { Menu, X, LogOut, UserCircle2, ChevronDown, LayoutDashboard, UserPlus, LogIn, Home, BriefcaseBusiness, BookOpen, CalendarCheck, PhoneCall } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
 import DirectionToggle from "./DirectionToggle";
@@ -46,6 +46,16 @@ export default function PublicLayout({ children }) {
   const {user,logout}=useAuth();
   const location=useLocation(), navigate=useNavigate();
   const goDashboard=(role)=>navigate(role==="admin"?"/admin":"/dashboard");
+
+  // Lock the document behind the mobile drawer so the page cannot keep
+  // scrolling underneath it. Restore scrolling when the drawer closes.
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, [open]);
+
   return <div className="public-site min-h-screen bg-executive-950 text-white">
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-slate-950/85 backdrop-blur-2xl">
       <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:px-10">
@@ -64,7 +74,57 @@ export default function PublicLayout({ children }) {
         </div>
       </div>
     </header>
-    {open&&<div className="fixed inset-0 z-[80] bg-slate-950 p-6 md:hidden"><div className="flex justify-between"><Logo/><button onClick={()=>setOpen(false)} aria-label="Close navigation"><X/></button></div><nav className="mt-12 grid gap-5">{links.map(([to,label])=><Link onClick={()=>setOpen(false)} key={to} to={to} className="flex items-center gap-3 text-xl font-bold"><Home size={17} className="text-gold-400"/>{label}</Link>)}<div className="flex flex-wrap gap-3 pt-4"><DirectionToggle/><ThemeToggle/><button onClick={()=>{setOpen(false);goDashboard("admin")}} className="btn-secondary"><LayoutDashboard size={15}/> Admin</button><button onClick={()=>{setOpen(false);goDashboard("user")}} className="btn-gold"><UserCircle2 size={15}/> Student</button><Link onClick={()=>setOpen(false)} to="/signup" className="btn-secondary"><UserPlus size={15}/> Sign Up</Link></div>{user&&<button onClick={()=>{logout();setOpen(false)}} className="flex items-center gap-2 text-sm text-rose-400"><LogOut size={16}/> Logout</button>}</nav></div>}
+    {open&&<div className="mobile-nav-drawer fixed inset-0 z-[80] bg-slate-950 md:hidden">
+      <div className="mobile-nav-inner">
+        <div className="flex shrink-0 items-center justify-between">
+          <Logo/>
+          <button onClick={()=>setOpen(false)} aria-label="Close navigation" className="rounded-xl border border-white/10 p-2.5 text-white">
+            <X size={24}/>
+          </button>
+        </div>
+
+        <nav className="mt-10 grid gap-5">
+          {links.map(([to,label])=>
+            <Link onClick={()=>setOpen(false)} key={to} to={to} className="flex items-center gap-4 text-xl font-bold">
+              <Home size={21} className="shrink-0 text-gold-400"/>{label}
+            </Link>
+          )}
+        </nav>
+
+        <div className="mobile-nav-actions">
+          <Link
+            to="/book"
+            onClick={()=>setOpen(false)}
+            className="btn-gold mobile-book-button w-full justify-center"
+          >
+            <CalendarCheck size={18}/> Book Now
+          </Link>
+
+          <div className="mobile-assistance">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold-500/10 text-gold-400">
+              <PhoneCall size={20}/>
+            </div>
+            <div className="min-w-0">
+              <p className="font-jakarta text-base font-bold text-white">Need assistance?</p>
+              <a href="tel:+15550182026" className="mt-1 block text-lg font-extrabold text-gold-400">
+                +1 555 018 2026
+              </a>
+            </div>
+          </div>
+
+          <div className="mobile-nav-settings">
+            <DirectionToggle/>
+            <ThemeToggle/>
+          </div>
+
+          {user&&
+            <button onClick={()=>{logout();setOpen(false)}} className="flex items-center justify-center gap-2 pb-2 text-sm text-rose-400">
+              <LogOut size={16}/> Logout
+            </button>
+          }
+        </div>
+      </div>
+    </div>}
     {children}
     <footer className="border-t border-white/5">
       <div className="mx-auto grid max-w-[1500px] gap-10 px-5 py-14 sm:px-8 md:grid-cols-4 lg:px-10">
