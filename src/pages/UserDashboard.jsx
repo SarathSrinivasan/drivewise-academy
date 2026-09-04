@@ -126,6 +126,19 @@ export default function UserDashboard() {
                 <h1 className="mt-1 text-lg font-extrabold">{tab}</h1>
               </div>
             </div>
+            <button
+              type="button"
+              onClick={() => setTab("Profile")}
+              className="student-header-profile absolute left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-gold-500/15 bg-white/[0.025] px-2 py-1.5 sm:px-3 sm:py-2"
+              title="Open student profile"
+            >
+              <img src={profile.avatar || user?.avatar} alt={profile.name} className="h-7 w-7 sm:h-8 sm:w-8 rounded-full object-cover ring-1 ring-gold-500/25" />
+              <span className="hidden min-w-0 text-left sm:block">
+                <span className="block max-w-[115px] truncate text-[10px] font-extrabold text-white">{profile.name}</span>
+                <span className="block text-[8px] font-bold uppercase tracking-wider text-gold-400">Student</span>
+              </span>
+              <UserRound size={14} className="text-slate-500" />
+            </button>
             <div className="student-header-actions">
               <DirectionToggle />
               <ThemeToggle compact />

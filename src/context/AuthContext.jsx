@@ -65,6 +65,25 @@ export function AuthProvider({ children }) {
     return { success: true, user: newUser };
   };
 
+
+  // Allow the role dashboards to open directly from the public account menu.
+  // This is a demo-only shortcut; production apps should use server-side auth.
+  const enterDashboard = (role) => {
+    const matched = DEMO_ACCOUNTS[role === "admin" ? "admin" : "user"];
+    const demoUser = {
+      id: matched.role === "admin" ? 1 : 101,
+      name: matched.name,
+      email: matched.email,
+      role: matched.role,
+      avatar: matched.role === "admin"
+        ? "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80"
+        : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
+    };
+    setToken(`drivewise-demo-${matched.role}-token`);
+    setUser(demoUser);
+    return demoUser;
+  };
+
   const logout = () => { setToken(null); setUser(null); };
 
   const updateUser = (updates) => {
@@ -72,7 +91,7 @@ export function AuthProvider({ children }) {
   };
 
   const value = useMemo(() => ({
-    token, user, loading, isAuthenticated: Boolean(token), login, register, logout, updateUser, axios: axiosInstance
+    token, user, loading, isAuthenticated: Boolean(token), login, register, enterDashboard, logout, updateUser, axios: axiosInstance
   }), [token, user, loading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

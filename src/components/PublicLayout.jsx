@@ -13,7 +13,7 @@ const links = [
 export function Logo() {
   return <Link to="/" className="flex items-center gap-3" aria-label="DriveWise Academy Home">
     <div className="grid h-10 w-10 place-items-center rounded-xl border border-gold-500/30 bg-gold-500/10 text-xs font-black text-gold-400">DW</div>
-    <div><p className="font-jakarta text-xs font-extrabold tracking-[0.2em]">DRIVEWISE</p><p className="text-[9px] uppercase tracking-[0.2em] text-gold-400">Executive Academy</p></div>
+    <div className="logo-wordmark"><p className="font-jakarta text-xs font-extrabold tracking-[0.2em]">DRIVEWISE</p><p className="text-[9px] uppercase tracking-[0.2em] text-gold-400">Executive Academy</p></div>
   </Link>;
 }
 
@@ -56,7 +56,12 @@ export default function PublicLayout({ children }) {
           <ThemeToggle compact />
           <ProfileMenu user={user} logout={logout} goDashboard={goDashboard}/>
         </div>
-        <button onClick={()=>setOpen(true)} aria-label="Open navigation" className="rounded-xl border border-white/10 p-2 md:hidden"><Menu size={19}/></button>
+        <div className="flex items-center gap-1.5 md:hidden">
+          <DirectionToggle />
+          <ThemeToggle compact />
+          <ProfileMenu user={user} logout={logout} goDashboard={goDashboard}/>
+          <button onClick={()=>setOpen(true)} aria-label="Open navigation" className="rounded-xl border border-white/10 p-2.5"><Menu size={18}/></button>
+        </div>
       </div>
     </header>
     {open&&<div className="fixed inset-0 z-[80] bg-slate-950 p-6 md:hidden"><div className="flex justify-between"><Logo/><button onClick={()=>setOpen(false)} aria-label="Close navigation"><X/></button></div><nav className="mt-12 grid gap-5">{links.map(([to,label])=><Link onClick={()=>setOpen(false)} key={to} to={to} className="flex items-center gap-3 text-xl font-bold"><Home size={17} className="text-gold-400"/>{label}</Link>)}<div className="flex flex-wrap gap-3 pt-4"><DirectionToggle/><ThemeToggle/><button onClick={()=>{setOpen(false);goDashboard("admin")}} className="btn-secondary"><LayoutDashboard size={15}/> Admin</button><button onClick={()=>{setOpen(false);goDashboard("user")}} className="btn-gold"><UserCircle2 size={15}/> Student</button><Link onClick={()=>setOpen(false)} to="/signup" className="btn-secondary"><UserPlus size={15}/> Sign Up</Link></div>{user&&<button onClick={()=>{logout();setOpen(false)}} className="flex items-center gap-2 text-sm text-rose-400"><LogOut size={16}/> Logout</button>}</nav></div>}

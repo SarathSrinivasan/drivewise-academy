@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
@@ -17,7 +18,18 @@ import ServicesPage from "./pages/ServicesPage";
 import BlogPage from "./pages/BlogPage";
 
 function Loading({text}){return <div className="grid min-h-screen place-items-center bg-executive-950 text-white"><div className="text-center"><div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-gold-500/20 border-t-gold-500"/><p className="mt-4 text-xs uppercase tracking-[0.25em] text-slate-500">{text}</p></div></div>}
-function Protected({children,role}){const {user,loading}=useAuth(); const location=useLocation(); if(loading)return <Loading text="Loading account"/>; if(!user)return <Navigate to="/login" state={{from: location}} replace/>; if(role&&user.role!==role)return <Navigate to={user.role==="admin"?"/admin":"/dashboard"} replace/>; return children}
+function Protected({children,role}){
+  const {user,loading,enterDashboard}=useAuth();
+  const location=useLocation();
+  useEffect(()=>{
+    if(!loading && !user && role) enterDashboard(role);
+  },[loading,user,role,enterDashboard]);
+  if(loading)return <Loading text="Loading account"/>;
+  if(!user && role)return <Loading text="Opening dashboard"/>;
+  if(!user)return <Navigate to="/login" state={{from: location}} replace/>;
+  if(role&&user.role!==role)return <Navigate to={user.role==="admin"?"/admin":"/dashboard"} replace/>;
+  return children;
+}
 function AnimatedRoutes(){const location=useLocation();return <AnimatePresence mode="wait"><Routes location={location} key={location.pathname}>
 <Route index path="/" element={<HomePage/>}/><Route path="/home2" element={<Home2Page/>}/><Route path="/services" element={<ServicesPage/>}/><Route path="/blog" element={<BlogPage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/courses" element={<CoursesPage/>}/><Route path="/instructors" element={<InstructorsPage/>}/><Route path="/pricing" element={<PricingPage/>}/><Route path="/contact" element={<ContactPage/>}/>
 <Route path="/login" element={<LoginPage/>}/><Route path="/signup" element={<SignupPage/>}/><Route path="/forgot-password" element={<ForgotPasswordPage/>}/>

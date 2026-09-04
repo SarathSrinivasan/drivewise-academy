@@ -156,12 +156,12 @@ export default function AdminDashboard() {
             <button
               type="button"
               onClick={()=>selectNav("Profile")}
-              className="admin-header-profile absolute left-1/2 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-gold-500/15 bg-white/[0.025] px-3 py-2 text-left transition hover:border-gold-500/30 hover:bg-gold-500/[0.06] md:flex"
+              className="admin-header-profile absolute left-1/2 flex -translate-x-1/2 items-center gap-2 sm:gap-3 rounded-full border border-gold-500/15 bg-white/[0.025] px-3 py-2 text-left transition hover:border-gold-500/30 hover:bg-gold-500/[0.06] md:flex"
               title="Open administrator profile"
             >
-              <img src={profile.avatar} alt={profile.name} className="h-9 w-9 rounded-full object-cover ring-1 ring-gold-500/25" />
-              <span className="min-w-0 pr-2">
-                <span className="block max-w-[150px] truncate text-xs font-extrabold text-white">{profile.name}</span>
+              <img src={profile.avatar} alt={profile.name} className="h-8 w-8 sm:h-9 sm:w-9 rounded-full object-cover ring-1 ring-gold-500/25" />
+              <span className="min-w-0 max-w-[105px] sm:max-w-[150px] pr-1 sm:pr-2">
+                <span className="block truncate text-[10px] sm:text-xs font-extrabold text-white">{profile.name}</span>
                 <span className="mt-0.5 block text-[9px] font-bold uppercase tracking-[0.16em] text-gold-400">Administrator</span>
               </span>
               <UserRound size={15} className="shrink-0 text-slate-500" />
