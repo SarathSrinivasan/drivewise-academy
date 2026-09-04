@@ -34,8 +34,23 @@ function ProfileMenu({ user, logout, goDashboard }) {
       <div className="my-2 border-t border-white/10"/>
       <button onClick={() => { goDashboard("admin"); setOpen(false); }} className="profile-dropdown-item"><LayoutDashboard size={16}/> Admin Dashboard</button>
       <button onClick={() => { goDashboard("user"); setOpen(false); }} className="profile-dropdown-item"><UserCircle2 size={16}/> Student Dashboard</button>
-      <Link to="/signup" onClick={() => setOpen(false)} className="profile-dropdown-item"><UserPlus size={16}/> Sign Up</Link>
-      <Link to="/login" onClick={() => setOpen(false)} className="profile-dropdown-item"><LogIn size={16}/> Sign In</Link>
+     <Link
+  to="/signup"
+  onClick={() => setOpen(false)}
+  className="profile-dropdown-item !text-slate-700 dark:!text-slate-300"
+>
+  <UserPlus size={16} className="!text-slate-600 dark:!text-slate-300" />
+  Sign Up
+</Link>
+
+<Link
+  to="/login"
+  onClick={() => setOpen(false)}
+  className="profile-dropdown-item !text-slate-700 dark:!text-slate-300"
+>
+  <LogIn size={16} className="!text-slate-600 dark:!text-slate-300" />
+  Sign In
+</Link>
       {user && <><div className="my-2 border-t border-white/10"/><button onClick={() => { logout(); setOpen(false); }} className="profile-dropdown-item text-rose-400"><LogOut size={16}/> Logout</button></>}
     </div>}
   </div>;
