@@ -1639,9 +1639,6 @@ html.light .admin-header-profile span.block:first-child {
   text-decoration: none;
 }
 
-.mobile-nav-settings {
-  display: none;
-}
 
 html.light .mobile-nav-drawer {
   background: #ffffff;
@@ -1659,20 +1656,6 @@ html.light .mobile-nav-drawer .mobile-assistance .text-white {
 
 html.light .mobile-nav-drawer .mobile-nav-actions {
   border-color: rgba(15,23,42,.09);
-}
-
-@media (max-width: 767px) {
-  .mobile-nav-settings {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    margin-top: 14px;
-  }
-
-  .mobile-nav-settings .direction-toggle,
-  .mobile-nav-settings .theme-toggle {
-    flex-shrink: 0;
-  }
 }
 
 @media (max-width: 420px) {

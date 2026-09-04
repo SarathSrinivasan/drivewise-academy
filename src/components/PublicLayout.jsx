@@ -43,6 +43,7 @@ function ProfileMenu({ user, logout, goDashboard }) {
 
 export default function PublicLayout({ children }) {
   const [open,setOpen]=useState(false);
+  const drawerRef = useRef(null);
   const {user,logout}=useAuth();
   const location=useLocation(), navigate=useNavigate();
   const goDashboard=(role)=>navigate(role==="admin"?"/admin":"/dashboard");
@@ -53,8 +54,16 @@ export default function PublicLayout({ children }) {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => {
+      if (drawerRef.current) drawerRef.current.scrollTop = 0;
+    });
     return () => { document.body.style.overflow = previousOverflow; };
   }, [open]);
+
+  useEffect(() => {
+    setOpen(false);
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, [location.pathname]);
 
   return <div className="public-site min-h-screen bg-executive-950 text-white">
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-slate-950/85 backdrop-blur-2xl">
@@ -75,7 +84,7 @@ export default function PublicLayout({ children }) {
       </div>
     </header>
     {open&&<div className="mobile-nav-drawer fixed inset-0 z-[80] bg-slate-950 md:hidden">
-      <div className="mobile-nav-inner">
+      <div ref={drawerRef} className="mobile-nav-inner">
         <div className="flex shrink-0 items-center justify-between">
           <Logo/>
           <button onClick={()=>setOpen(false)} aria-label="Close navigation" className="rounded-xl border border-white/10 p-2.5 text-white">
@@ -110,11 +119,6 @@ export default function PublicLayout({ children }) {
                 +1 555 018 2026
               </a>
             </div>
-          </div>
-
-          <div className="mobile-nav-settings">
-            <DirectionToggle/>
-            <ThemeToggle/>
           </div>
 
           {user&&
